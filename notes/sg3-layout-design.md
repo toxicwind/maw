@@ -492,7 +492,7 @@ Implement as a **new `maw migrate` path** (do NOT overload the jj-era
 
 **Phase E — Finalize & verify**
 12. Rewrite `.gitignore`: replace any `ws/` line with `/.maw/` (or add
-    `/.maw/` if absent); commit nothing automatically (let the user/agent
+    `/.maw/` if absent); commit nothing automatically (let the architect/agent
     commit the `.gitignore` change in a normal workspace if it differs from
     the tracked tree — typically the tracked tree already has the right
     ignore once the branch defines it; migration only fixes the *working*

@@ -144,7 +144,7 @@ if let Ok(out) = diff_check {
         eprintln!("WARNING: Default workspace has uncommitted changes.");
         eprintln!("  These will be overwritten by the merge restore.");
         eprintln!("  To preserve: maw exec default -- jj commit -m 'wip: save before merge'");
-        // Don't restore; let the user handle it
+        // Don't restore; let the architect handle it
         return Ok(());  // or bail with --force option
     }
 }

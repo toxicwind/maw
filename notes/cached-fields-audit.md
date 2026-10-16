@@ -4,7 +4,7 @@
 
 **What it was**: A counter in `.manifold/workspaces/<name>.toml` tracking unresolved rebase conflicts.
 
-**Why it drifted**: Written by `ws sync --rebase` on conflict, but never reset when the user resolved via plain git (`git add` + `git commit`). This caused `ws merge` to falsely block. Three patch releases (v0.58.3--v0.58.5) tried to fix this with increasingly complex reconciliation logic, all of which had their own edge cases.
+**Why it drifted**: Written by `ws sync --rebase` on conflict, but never reset when the architect resolved via plain git (`git add` + `git commit`). This caused `ws merge` to falsely block. Three patch releases (v0.58.3--v0.58.5) tried to fix this with increasingly complex reconciliation logic, all of which had their own edge cases.
 
 **Ground truth**: `find_conflicted_files()` -- a worktree scan that detects `<<<<<<<` markers. Takes <10ms on typical workspaces.
 
@@ -20,7 +20,7 @@
 | `change_id: Option<String>` | Bound change tracking ID. Declarative, not derivable. |
 | `description: Option<String>` | User-provided text. Not derivable. |
 
-None of these remaining fields are counters or status caches. They all represent user intent or configuration choices that don't change unless the user explicitly changes them.
+None of these remaining fields are counters or status caches. They all represent user intent or configuration choices that don't change unless the architect explicitly changes them.
 
 ## Pattern
 

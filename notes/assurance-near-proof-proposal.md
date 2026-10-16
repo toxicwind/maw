@@ -414,7 +414,7 @@ Every theorem/invariant links to:
 
 ## 8) Recoverability discoverability contract
 
-Define a user-facing contract and test it:
+Define an architect-facing contract and test it:
 
 1. On data-risking failure, output must include:
    - `WARNING:` or `ERROR:` prefix,

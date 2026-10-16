@@ -204,7 +204,7 @@ Replace this with tests for the actual contract:
 Rebase is intentionally order-sensitive because later commits may depend on earlier ones. A commutativity-style test will create false failures for valid histories.
 
 **Benefits:**
-- Tests the user-visible guarantee rather than an algebraic property rebase does not have.
+- Tests the architect-visible guarantee rather than an algebraic property rebase does not have.
 - Avoids locking the implementation to an invalid invariant.
 - Better aligns with the existing `sync --rebase` test suite.
 

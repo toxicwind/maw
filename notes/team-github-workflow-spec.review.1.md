@@ -115,8 +115,8 @@ Integration test #6 says `pr open` is idempotent, but `gh pr create` fails if a 
 
 The spec says `maw ws create` stamps `session_id` when a session is active. But:
 
-- What if a user creates a workspace with no session, then later starts a session on the same branch? The workspace has no `session_id`.
-- What if a user explicitly wants a workspace outside any session (utility workspace)?
+- What if an architect creates a workspace with no session, then later starts a session on the same branch? The workspace has no `session_id`.
+- What if an architect explicitly wants a workspace outside any session (utility workspace)?
 
 **Recommendation:**
 

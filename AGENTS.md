@@ -278,7 +278,7 @@ maw is frequently invoked by agents with **no prior context**. Every piece of to
 
 ## Operating Model: Conflicts Are Data, Not Errors
 
-Maw follows the **jj-style conflict model**: operations succeed even when they produce conflicts, and the conflict is represented as explicit state that rides with the workspace until resolved. Operations do not refuse to run because of conflict — they run, record the conflict, and let the user resolve it when convenient.
+Maw follows the **jj-style conflict model**: operations succeed even when they produce conflicts, and the conflict is represented as explicit state that rides with the workspace until resolved. Operations do not refuse to run because of conflict — they run, record the conflict, and let the architect resolve it when convenient.
 
 Concretely:
 

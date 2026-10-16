@@ -141,7 +141,7 @@ Use uppercase IDs with stable namespace prefixes:
     epoch ref write)
   - Risk: HIGH
   - Invariants: G3, Prime Invariant (dirty target edits)
-  - Description: the tree is the merged tree and the user's pre-merge edits exist
+  - Description: the tree is the merged tree and the architect's pre-merge edits exist
     only in the pinned snapshot. Recovery (or a re-crashed recovery) must resume
     from the `target-checkout-<ws>.json` intent, not re-snapshot the merged tree
     against `epoch_before`. In the DST crash pools since bn-1sbjf (cleanup phase of
@@ -154,7 +154,7 @@ Use uppercase IDs with stable namespace prefixes:
     the in-memory capture and the per-workspace epoch ref write)
   - Risk: HIGH
   - Invariants: G3, Prime Invariant (dirty target edits)
-  - Description: the tree is the merged tree and the user's edits exist only in
+  - Description: the tree is the merged tree and the architect's edits exist only in
     the in-memory recovery pin. The fallback writes the `target-checkout-<ws>.json`
     intent (snapshot = the pin) before its checkout, so recovery replays the pin
     against the anchor. Not in the DST crash pools (bn-36chi decides).

@@ -461,7 +461,7 @@ Empty and whitespace-only `--message` values are now treated identically to omit
 
 ### Bug fix: silent worktree corruption from stale per-workspace baseline (bn-3r8s)
 
-Reproduced as the bn-4c6g report shape: after a direct commit on the configured branch + `maw epoch sync` + `maw ws merge <other> --into default`, the merge committed a clean tree but left the default workspace's worktree as a `<<<<<<< / ||||||| / ======= / >>>>>>>` block wrapping a duplicated copy of the merged file (~2× expected size, no `<<<<<<<` warning). Builds against the worktree saw garbage; the user blamed the merge but the commit itself was correct.
+Reproduced as the bn-4c6g report shape: after a direct commit on the configured branch + `maw epoch sync` + `maw ws merge <other> --into default`, the merge committed a clean tree but left the default workspace's worktree as a `<<<<<<< / ||||||| / ======= / >>>>>>>` block wrapping a duplicated copy of the merged file (~2× expected size, no `<<<<<<<` warning). Builds against the worktree saw garbage; the architect blamed the merge but the commit itself was correct.
 
 Root cause: `maw epoch sync` only advanced `refs/manifold/epoch/current`. The default workspace's per-workspace baseline (`refs/manifold/epoch/ws/default`) stayed at the OLD epoch. The next `maw ws merge` anchored HEAD at the stale baseline during snapshot/replay, treated the direct commit's content as "uncommitted local edits" relative to that baseline, and double-applied it onto the merge result via the snapshot replay. Same family of bug as bn-28q2 — direct commits on the target's branch leaving per-workspace baselines stale.
 
@@ -480,13 +480,13 @@ Two checks run, cheapest first:
 1. **Size-delta** — if the merged blob is larger than `merge.post_rebase_size_ratio_max` (default `1.5`) times the largest of `base`/`ours`/`theirs` byte sizes, flag.
 2. **AST parse** — for files matching one of the existing tree-sitter language packs (Rust, Python, TypeScript, JavaScript, Go), try to parse the merged blob; flag if it fails to parse cleanly when both inputs parsed cleanly.
 
-When the check trips with `merge.strict_post_rebase_check = true` (default), the path is routed through the conflict-tree pipeline — the user resolves it the same way they would a textual conflict. With the flag set to `false`, a stderr warning is emitted and the merge is accepted as clean. The check fails closed: a check-internal error or unparseable config defaults back to strict.
+When the check trips with `merge.strict_post_rebase_check = true` (default), the path is routed through the conflict-tree pipeline — the architect resolves it the same way they would a textual conflict. With the flag set to `false`, a stderr warning is emitted and the merge is accepted as clean. The check fails closed: a check-internal error or unparseable config defaults back to strict.
 
 New config keys: `merge.strict_post_rebase_check` (bool, default `true`) and `merge.post_rebase_size_ratio_max` (float, default `1.5`). New `RebaseOutcome` field: `sanity_flagged_steps`.
 
 ### Bug fix: FF-absorb predicate excludes merge target's committed paths (bn-28q2)
 
-`maw ws merge` no longer self-blocks when the user has committed directly to the merge target's branch. The bn-11ip safety predicate was treating the target's committed touched-paths as if they were a sibling's edits — but those committed paths ARE the FF range, so the intersection was always non-empty and absorb was always refused. Now the target's committed paths are excluded from the predicate, while its UNCOMMITTED dirty edits are still checked (so a hard FF checkout cannot silently overwrite local work). The common "I made a small docs commit on main and now my workspace merge is blocked" friction is gone.
+`maw ws merge` no longer self-blocks when the architect has committed directly to the merge target's branch. The bn-11ip safety predicate was treating the target's committed touched-paths as if they were a sibling's edits — but those committed paths ARE the FF range, so the intersection was always non-empty and absorb was always refused. Now the target's committed paths are excluded from the predicate, while its UNCOMMITTED dirty edits are still checked (so a hard FF checkout cannot silently overwrite local work). The common "I made a small docs commit on main and now my workspace merge is blocked" friction is gone.
 
 ### `maw ws recover` discoverability + `--restore-file` (bn-sgm8)
 
@@ -524,7 +524,7 @@ Default-on; opt out with `merge.auto_absorb_ff = false` in `.manifold/config.tom
 
 ### Behavior change: `maw ws sync` rebases by default (bn-3az5)
 
-`maw ws sync <name>` now replays committed work onto the new epoch by default when the workspace is stale and has commits ahead. The previous behavior was to print a warning telling the user to use `--rebase` and exit without doing anything.
+`maw ws sync <name>` now replays committed work onto the new epoch by default when the workspace is stale and has commits ahead. The previous behavior was to print a warning telling the architect to use `--rebase` and exit without doing anything.
 
 - The old `--rebase` flag is now a no-op accepted for backward compatibility, with a one-line deprecation note on stderr. It will be removed in a future version.
 - A new `--no-rebase` flag opts out of the default replay. With committed work ahead it refuses with a clear error and leaves the workspace untouched (no destructive reset).
@@ -774,7 +774,7 @@ The bn-19tb fuzz harness discovered that `AttrsMatcher::is_lfs` and `merge_drive
 
 ### Fixed — `ws merge` phantom rebase conflict (bn-3h90 Bug 1)
 
-`maw ws merge` refused to proceed when a source workspace had a stale `rebase_conflict_count > 0` in its metadata, even after the user had resolved the conflict via plain git (`git add`, `git commit`). `maw ws conflicts`, `maw ws resolve --list`, and `maw ws sync` all reported the workspace clean — only `maw ws merge` trusted the stale counter. The counter was set by `maw ws sync --rebase` when a rebase hit a conflict, but nothing reset it when the conflict was resolved outside of `maw ws resolve`.
+`maw ws merge` refused to proceed when a source workspace had a stale `rebase_conflict_count > 0` in its metadata, even after the architect had resolved the conflict via plain git (`git add`, `git commit`). `maw ws conflicts`, `maw ws resolve --list`, and `maw ws sync` all reported the workspace clean — only `maw ws merge` trusted the stale counter. The counter was set by `maw ws sync --rebase` when a rebase hit a conflict, but nothing reset it when the conflict was resolved outside of `maw ws resolve`.
 
 **Fix**: `maw ws merge` now reconciles the persistent counter against the worktree before blocking. If the worktree has no conflict markers, the counter is auto-cleared and the merge proceeds. `maw ws resolve --list` does the same reconciliation as a side effect, so running it on a clean workspace also clears the stale state.
 

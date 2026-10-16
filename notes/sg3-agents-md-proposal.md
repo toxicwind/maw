@@ -25,7 +25,7 @@ is correct for **v2 repos** (existing maw) and must be retained.
 
 **For NEW consolidated repos**, the root AGENTS.md replaces the stub
 with the real content (the file IS the source, no indirection). `maw
-init` does not write an AGENTS.md by default — the user/lead creates
+init` does not write an AGENTS.md by default — the architect/lead creates
 one when the project gets a CLAUDE/AGENTS contract. The consolidated
 layout has no `ws/default/` so the stub indirection is meaningless and
 must not be written.

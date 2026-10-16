@@ -195,5 +195,5 @@ content as "user changes." Replaying such a diff reintroduces old-epoch files
 over the new-epoch target, silently corrupting the workspace.
 
 The anchor invariant ensures that B is always the commit that was materialized
-on disk when the user made their changes, so the extracted deltas represent
+on disk when the architect made their changes, so the extracted deltas represent
 genuine user intent rather than epoch-transition artifacts.

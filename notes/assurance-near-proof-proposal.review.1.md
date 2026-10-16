@@ -20,7 +20,7 @@
 
 ## Patch 1: remove `git checkout --force` in default workspace update and make it “no-loss” with snapshot + replay
 
-This directly eliminates the destructive primitive you called out and fixes the subtle “stale checkout looks dirty” trap by basing the user-delta extraction on `epoch_before` from the merge-state.
+This directly eliminates the destructive primitive you called out and fixes the subtle “stale checkout looks dirty” trap by basing the architect-delta extraction on `epoch_before` from the merge-state.
 
 It also ensures cleanup does not fail the merge: this function now **never returns Err for operational failures** (it warns and returns `Ok(())`), so the merge command won’t die after COMMIT succeeded.
 
@@ -46,7 +46,7 @@ diff --git a/src/workspace/merge.rs b/src/workspace/merge.rs
 +    // the entire old epoch checkout as "local changes" and will re-apply it, undoing
 +    // the update to the new epoch.
 +    //
-+    // To preserve only the user's edits, we:
++    // To preserve only the architect's edits, we:
 +    //  1) Read `epoch_before` from `.manifold/merge-state.json` (still present in CLEANUP).
 +    //  2) Extract two patches that represent only user work:
 +    //     - staged patch:   `git diff --cached --binary <epoch_before>`
@@ -55,7 +55,7 @@ diff --git a/src/workspace/merge.rs b/src/workspace/merge.rs
 +    //  4) `git reset --hard {branch}` to materialize the new epoch in the worktree.
 +    //  5) Re-apply patches onto the new epoch via `git apply --3way`.
 +    //
-+    // If replay fails, we roll back to the captured snapshot so the user's working copy
++    // If replay fails, we roll back to the captured snapshot so the architect's working copy
 +    // remains intact (merge COMMIT already succeeded; cleanup must not lose work).
 +
 +    fn warn(text_mode: bool, msg: &str) {
@@ -378,7 +378,7 @@ diff --git a/src/workspace/merge.rs b/src/workspace/merge.rs
   - snapshotted into `refs/manifold/recovery/default/<timestamp>` (via your existing capture code), and
   - extracted as explicit `index.patch` / `worktree.patch` artifacts in `.manifold/artifacts/rewrite/default/<timestamp>/`.
 
-- If replay fails, the working copy is rolled back to the snapshot so the user doesn’t experience “my edits disappeared”.
+- If replay fails, the working copy is rolled back to the snapshot so the architect doesn’t experience “my edits disappeared”.
 
 ---
 
@@ -503,7 +503,7 @@ new file mode 100644
 +2. `git checkout <branch>`
 +3. `git stash pop`
 +
-+the stash contains the *entire old checkout* (not just the user’s edits), and popping it
++the stash contains the *entire old checkout* (not just the architect’s edits), and popping it
 +can silently revert you back to the old epoch.
 +
 +## Correct primitive (spec)

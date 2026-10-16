@@ -8,7 +8,7 @@ Verdict up front:
 
 - **jj opfork-wedge: REPRODUCED** on jj 0.41.0 under concurrent multi-workspace
   use — all five mechanism steps from `notes/manifold-v2.md` §2.2 observed,
-  including the user-visible `Internal error: ... sibling of the working
+  including the architect-visible `Internal error: ... sibling of the working
   copy's operation` and **divergent commits**. The jj arm is **fair, not a
   strawman**. This is the load-bearing finding.
 - **Harness: FEASIBLE.** `claude` CLI (`-p --output-format json`) is a

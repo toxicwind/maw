@@ -1,0 +1,78 @@
+{
+  "name": "maw",
+  "version": "0.1.0",
+  "description": "Multi-Agent Workspaces: A coordination layer for teams running many coding agents in parallel on one repo",
+  "main": "src/main.rs",
+  "scripts": {
+    "dev": "cargo run",
+    "test": "cargo test",
+    "bench": "cargo bench",
+    "build": "cargo build --release",
+    "lint": "cargo clippy -- -D warnings",
+    "format": "cargo fmt",
+    "check": "cargo check",
+    "doc": "cargo doc --open",
+    "clippy": "cargo clippy",
+    "fmt": "cargo fmt",
+    "clean": "cargo clean",
+    "release": "cargo release"
+  },
+  "keywords": [
+    "multi-agent",
+    "workspace",
+    "automation",
+    "parallel",
+    "git"
+  ],
+  "author": "Maw Contributors",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/example/maw"
+  },
+  "bugs": {
+    "url": "https://github.com/example/maw/issues"
+  },
+  "homepage": "https://github.com/example/maw#readme",
+  "devDependencies": {},
+  "dependencies": {
+    "serde": {
+      "version": "1.0",
+      "features": [
+        "derive"
+      ]
+    },
+    "tokio": {
+      "version": "1",
+      "features": [
+        "full"
+      ]
+    },
+    "clap": {
+      "version": "4",
+      "features": [
+        "derive"
+      ]
+    },
+    "anyhow": "1.0",
+    "thiserror": "1.0",
+    "tracing": "0.1",
+    "tracing-subscriber": {
+      "version": "0.3",
+      "features": [
+        "env-filter"
+      ]
+    }
+  },
+  "workspace": {
+    "members": [
+      "crates/*"
+    ]
+  },
+  "package": {
+    "edition": "2021",
+    "rust-version": "1.70"
+  },
+  "private": true,
+  "type": "module"
+}
